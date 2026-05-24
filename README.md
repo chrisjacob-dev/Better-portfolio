@@ -1,22 +1,78 @@
-# CODING AGENTS: READ THIS FIRST
+# Chris Jacob — Portfolio
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+A cinematic, futuristic portfolio for an AI / ML engineer — built to feel like a
+high-end AI operating-system interface. Deep matte-black canvas, flowing
+electric-blue gradients, a 3D hero, scroll-choreographed project stacking, and an
+ambient cinematic atmosphere throughout.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+Live: _add your Vercel URL here_
 
-## What you should do — IMPORTANT
+## Highlights
 
-**Read `chris-portfolio-better-version/project/index.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+- **3D hero scene** — a Three.js particle ring + morphing geometry with phase animation.
+- **Cinematic project deck** — projects fully reveal, hold, then compress into a layered
+  stack on scroll (scroll-tied, fully reversible), ending in a smooth zoom.
+- **Flowing typography stack section** — multi-row marquee of the tech stack at varied
+  speeds and depths, plus minimal dotted-leader category rows.
+- **Glassmorphic contact cards** + a **cinematic outro frame** (giant `CHRIS / JACOB`).
+- **Global background system** — drifting blue ambient glow, blueprint grid, scanlines,
+  particles, and a cursor-following light source.
+- **Custom cursor** — precise dot + soft magnetic trailing ring with hover/click feedback.
+- **Ambient soundtrack** — low, looping cinematic ambience with smooth fades and subtle
+  futuristic UI sounds (starts muted, fades in on first interaction).
+- **Engineered for smoothness** — transform/opacity-only GPU animations, off-screen
+  render gating, Lenis smooth scroll, and an adaptive `perf-lite` tier for weaker devices.
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Tech stack
 
-## About the design files
+- **React 18** + **Vite**
+- **Framer Motion** — scroll-linked motion values and reveal animations
+- **GSAP** — cinematic timelines
+- **Lenis** — smooth inertia scrolling
+- **Three.js** — hero and "about core" WebGL scenes
+- Plain CSS (no framework) for the full design system
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+## Getting started
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+```bash
+npm install
+npm run dev      # start the dev server (http://localhost:5173)
+npm run build    # production build -> dist/
+npm run preview  # preview the production build
+```
 
-## Bundle contents
+## Project structure
 
-- `chris-portfolio-better-version/README.md` — this file
-- `chris-portfolio-better-version/project/` — the `Chris Portfolio better version` project files (HTML prototypes, assets, components)
+```
+index.html              # entry + favicon + fonts
+src/
+  main.jsx              # bootstrap + adaptive performance tier
+  App.jsx               # layout, cursor, OS frame, Lenis, sections
+  GlobalBackground.jsx  # reusable cinematic background + cursor light
+  AudioController.jsx   # ambient music + UI sounds
+  WorkSection.jsx       # stacked project deck + zoom
+  StackSection.jsx      # flowing-typography tech stack
+  ContactSection.jsx    # glassmorphic contact cards
+  OutroSection.jsx      # cinematic closing frame
+  ExperienceSection.jsx # timeline
+  scene.js / aboutCore.js  # Three.js scenes
+  data.js               # content (profile, projects, stack)
+  styles.css            # full design system
+public/                 # audio, project images, favicon
+```
+
+## Deployment
+
+Optimized for **Vercel** (zero config — Vite is auto-detected: build `npm run build`,
+output `dist`). Import the repo at [vercel.com/new](https://vercel.com/new) and deploy;
+each push to `main` redeploys automatically.
+
+## Contact
+
+- **Email** — chris.jkarottu@icloud.com
+- **GitHub** — [@chrisjacob-dev](https://github.com/chrisjacob-dev)
+- **LinkedIn** — [chris-jacob](https://linkedin.com/in/chris-jacob-a03a49369)
+
+---
+
+Hand-engineered in Manipal, India.
