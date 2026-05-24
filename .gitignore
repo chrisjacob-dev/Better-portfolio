@@ -1,0 +1,11 @@
+node_modules
+dist
+.DS_Store
+*.log
+.vercel
+.env
+.env.*
+
+# local tooling + old prototype (not part of the shipped site)
+.claude/
+project/
