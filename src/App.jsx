@@ -12,6 +12,10 @@ import OutroSection from './OutroSection.jsx';
 import GlobalBackground from './GlobalBackground.jsx';
 import AudioController from './AudioController.jsx';
 
+// Shared zoom level used by Cursor to correct pointer coordinates.
+// Updated by the auto-zoom effect in App.
+let _zoom = 1;
+
 // ---------- helpers ----------
 function useReveal() {
   const ref = useRef(null);
@@ -109,7 +113,7 @@ function Cursor() {
       // soft expanding neon glow ring on interaction
       const el = pulse.current;
       if (el) {
-        el.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%,-50%)`;
+        el.style.transform = `translate3d(${e.clientX / _zoom}px, ${e.clientY / _zoom}px, 0) translate(-50%,-50%)`;
         el.classList.remove('go');
         void el.offsetWidth; // restart animation
         el.classList.add('go');
@@ -136,7 +140,7 @@ function Cursor() {
         }
       }
       // Dot tracks the pointer 1:1 — precise, never sticky.
-      if (dot.current) dot.current.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%,-50%)`;
+      if (dot.current) dot.current.style.transform = `translate3d(${mx / _zoom}px, ${my / _zoom}px, 0) translate(-50%,-50%)`;
 
       // Ring softly trails with lerp; light magnetic pull toward cached centre.
       let tx = mx, ty = my;
@@ -146,7 +150,7 @@ function Cursor() {
       }
       rx += (tx - rx) * 0.2;
       ry += (ty - ry) * 0.2;
-      if (ring.current) ring.current.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%,-50%)`;
+      if (ring.current) ring.current.style.transform = `translate3d(${rx / _zoom}px, ${ry / _zoom}px, 0) translate(-50%,-50%)`;
       raf = requestAnimationFrame(loop);
     };
     const onVis = () => {
@@ -522,6 +526,34 @@ export default function App() {
     // Run immediately so gsap.from() sets the hidden initial state at t=0
     // (under the loader). The heroTl delay handles the actual reveal timing.
     initCinematic();
+  }, []);
+
+  // Auto-scale the page so it fits any desktop viewport without manual zoom.
+  // Only active between 760px (mobile breakpoint) and 1440px (design width).
+  // Cursor coordinates (_zoom) are corrected in the Cursor component above.
+  useEffect(() => {
+    const DESIGN = 1440;
+    const MOBILE_BREAK = 760;
+
+    const update = () => {
+      const w = window.innerWidth;
+      if (w > MOBILE_BREAK && w < DESIGN) {
+        const z = w / DESIGN;
+        _zoom = z;
+        document.documentElement.style.zoom = z;
+      } else {
+        _zoom = 1;
+        document.documentElement.style.zoom = '';
+      }
+    };
+
+    update();
+    window.addEventListener('resize', update, { passive: true });
+    return () => {
+      window.removeEventListener('resize', update);
+      document.documentElement.style.zoom = '';
+      _zoom = 1;
+    };
   }, []);
 
   return (
